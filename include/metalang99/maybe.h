@@ -31,7 +31,7 @@
  * #include <metalang99/maybe.h>
  *
  * // 1
- * ML99_isJust(ML99_just(v(123)))
+ * ML99_isJust(ML99_just(ML99_QUOTE(123)))
  *
  * // 0
  * ML99_isJust(ML99_nothing())
@@ -51,7 +51,7 @@
  * ML99_isNothing(ML99_nothing())
  *
  * // 0
- * ML99_isNothing(ML99_just(v(123)))
+ * ML99_isNothing(ML99_just(ML99_QUOTE(123)))
  * @endcode
  */
 #define ML99_isNothing(maybe) ML99_call(ML99_isNothing, maybe)
@@ -66,13 +66,13 @@
  * #include <metalang99/nat.h>
  *
  * // 1
- * ML99_maybeEq(v(ML99_natEq), ML99_just(v(123)), ML99_just(v(123)));
+ * ML99_maybeEq(ML99_QUOTE(ML99_natEq), ML99_just(ML99_QUOTE(123)), ML99_just(ML99_QUOTE(123)));
  *
  * // 0
- * ML99_maybeEq(v(ML99_natEq), ML99_just(v(4)), ML99_just(v(6)));
+ * ML99_maybeEq(ML99_QUOTE(ML99_natEq), ML99_just(ML99_QUOTE(4)), ML99_just(ML99_QUOTE(6)));
  *
  * // 0
- * ML99_maybeEq(v(ML99_natEq), ML99_just(v(4)), ML99_nothing());
+ * ML99_maybeEq(ML99_QUOTE(ML99_natEq), ML99_just(ML99_QUOTE(4)), ML99_nothing());
  * @endcode
  */
 #define ML99_maybeEq(cmp, maybe, other) ML99_call(ML99_maybeEq, cmp, maybe, other)
@@ -86,7 +86,7 @@
  * #include <metalang99/maybe.h>
  *
  * // 123
- * ML99_maybeUnwrap(ML99_just(v(123)))
+ * ML99_maybeUnwrap(ML99_just(ML99_QUOTE(123)))
  *
  * // Emits a fatal error.
  * ML99_maybeUnwrap(ML99_nothing())
@@ -101,11 +101,11 @@
 
 #ifndef DOXYGEN_IGNORE
 
-#define ML99_just_IMPL(x)      v(ML99_JUST(x))
-#define ML99_nothing_IMPL(...) v(ML99_NOTHING())
+#define ML99_just_IMPL(x)      ML99_QUOTE(ML99_JUST(x))
+#define ML99_nothing_IMPL(...) ML99_QUOTE(ML99_NOTHING())
 
-#define ML99_isJust_IMPL(maybe)    v(ML99_IS_JUST(maybe))
-#define ML99_isNothing_IMPL(maybe) v(ML99_IS_NOTHING(maybe))
+#define ML99_isJust_IMPL(maybe)    ML99_QUOTE(ML99_IS_JUST(maybe))
+#define ML99_isNothing_IMPL(maybe) ML99_QUOTE(ML99_IS_NOTHING(maybe))
 
 // ML99_maybeEq_IMPL {
 
@@ -114,14 +114,14 @@
 
 #define ML99_PRIV_maybeEq_just_IMPL(x, cmp, other)                                                 \
     ML99_matchWithArgs_IMPL(other, ML99_PRIV_maybeEq_just_, cmp, x)
-#define ML99_PRIV_maybeEq_nothing_IMPL(_, _cmp, other) v(ML99_IS_NOTHING(other))
+#define ML99_PRIV_maybeEq_nothing_IMPL(_, _cmp, other) ML99_QUOTE(ML99_IS_NOTHING(other))
 
 #define ML99_PRIV_maybeEq_just_just_IMPL(y, cmp, x) ML99_appl2_IMPL(cmp, x, y)
 #define ML99_PRIV_maybeEq_just_nothing_IMPL         ML99_false_IMPL
 // } (ML99_maybeEq_IMPL)
 
 #define ML99_maybeUnwrap_IMPL(maybe)       ML99_match_IMPL(maybe, ML99_PRIV_maybeUnwrap_)
-#define ML99_PRIV_maybeUnwrap_just_IMPL(x) v(x)
+#define ML99_PRIV_maybeUnwrap_just_IMPL(x) ML99_QUOTE(x)
 #define ML99_PRIV_maybeUnwrap_nothing_IMPL(_)                                                      \
     ML99_fatal(ML99_maybeUnwrap, expected ML99_just but found ML99_nothing)
 

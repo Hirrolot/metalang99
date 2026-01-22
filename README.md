@@ -212,6 +212,31 @@ Optionally, you can [precompile headers] in your project that rely on Metalang99
 
 Happy hacking!
 
+### Short macro aliases
+
+Metalang99 provides a short macro alias `v(...)` for `ML99_QUOTE(...)`. In some projects, single-letter macros can conflict with other libraries (for example, Qt headers that use `v` in constructor initializers).
+
+If you want to avoid exporting short names, define `ML99_NO_SHORT_NAMES` before including any Metalang99 headers:
+
+```c
+#define ML99_NO_SHORT_NAMES
+#include <metalang99.h>
+```
+
+With CMake, add the definition to your target:
+
+```cmake
+target_compile_definitions(your_target PRIVATE ML99_NO_SHORT_NAMES)
+```
+
+Or pass it at configure time:
+
+```sh
+cmake -DMETALANG99_NO_SHORT_NAMES=ON ..
+```
+
+> **Tip:** Using `ML99_QUOTE(...)` directly is always safe and avoids macro-name collisions.
+
 ## Highlights
 
  - **Macro recursion.** Recursive calls behave as expected. In particular, to implement recursion, [Boost/Preprocessor] just copy-pastes all recursive functions up to a certain limit and forces to either keep track of recursion depth or rely on their built-in deduction. Being an interpreter, Metalang99 is free from such drawbacks.

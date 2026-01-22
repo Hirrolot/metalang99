@@ -42,16 +42,16 @@
  * #define FOO_y ()
  *
  * // 1
- * ML99_detectIdent(v(FOO_), v(x))
+ * ML99_detectIdent(ML99_QUOTE(FOO_), ML99_QUOTE(x))
  *
  * // 1
- * ML99_detectIdent(v(FOO_), v(y))
+ * ML99_detectIdent(ML99_QUOTE(FOO_), ML99_QUOTE(y))
  *
  * // 0
- * ML99_detectIdent(v(FOO_), v(z))
+ * ML99_detectIdent(ML99_QUOTE(FOO_), ML99_QUOTE(z))
  *
  * // 1
- * ML99_detectIdent(v(ML99_UNDERSCORE_DETECTOR), v(_))
+ * ML99_detectIdent(ML99_QUOTE(ML99_UNDERSCORE_DETECTOR), ML99_QUOTE(_))
  * @endcode
  */
 #define ML99_detectIdent(prefix, ident) ML99_call(ML99_detectIdent, prefix, ident)
@@ -59,7 +59,7 @@
 /**
  * Compares two identifiers @p x and @p y for equality.
  *
- * This macro is a shortcut to `ML99_detectIdent(ML99_cat3(prefix, x, v(_)), y)`.
+ * This macro is a shortcut to `ML99_detectIdent(ML99_cat3(prefix, x, ML99_QUOTE(_)), y)`.
  *
  * # Predefined detectors
  *
@@ -78,19 +78,19 @@
  * #define FOO_y_y ()
  *
  * // 1
- * ML99_identEq(v(FOO_), v(x), v(x))
+ * ML99_identEq(ML99_QUOTE(FOO_), ML99_QUOTE(x), ML99_QUOTE(x))
  *
  * // 1
- * ML99_identEq(v(FOO_), v(y), v(y))
+ * ML99_identEq(ML99_QUOTE(FOO_), ML99_QUOTE(y), ML99_QUOTE(y))
  *
  * // 0
- * ML99_identEq(v(FOO_), v(x), v(y))
+ * ML99_identEq(ML99_QUOTE(FOO_), ML99_QUOTE(x), ML99_QUOTE(y))
  *
  * // 1
- * ML99_identEq(v(ML99_C_KEYWORD_DETECTOR), v(while), v(while))
- * ML99_identEq(v(ML99_LOWERCASE_DETECTOR), v(x), v(x))
- * ML99_identEq(v(ML99_UPPERCASE_DETECTOR), v(X), v(X))
- * ML99_identEq(v(ML99_DIGIT_DETECTOR), v(5), v(5))
+ * ML99_identEq(ML99_QUOTE(ML99_C_KEYWORD_DETECTOR), ML99_QUOTE(while), ML99_QUOTE(while))
+ * ML99_identEq(ML99_QUOTE(ML99_LOWERCASE_DETECTOR), ML99_QUOTE(x), ML99_QUOTE(x))
+ * ML99_identEq(ML99_QUOTE(ML99_UPPERCASE_DETECTOR), ML99_QUOTE(X), ML99_QUOTE(X))
+ * ML99_identEq(ML99_QUOTE(ML99_DIGIT_DETECTOR), ML99_QUOTE(5), ML99_QUOTE(5))
  * @endcode
  */
 #define ML99_identEq(prefix, x, y) ML99_call(ML99_identEq, prefix, x, y)
@@ -106,13 +106,13 @@
  * #include <metalang99/ident.h>
  *
  * // 1
- * ML99_charEq(v(t), v(t))
+ * ML99_charEq(ML99_QUOTE(t), ML99_QUOTE(t))
  *
  * // 0
- * ML99_charEq(v(9), v(A))
+ * ML99_charEq(ML99_QUOTE(9), ML99_QUOTE(A))
  *
  * // 0
- * ML99_charEq(v(9), v(abcd))
+ * ML99_charEq(ML99_QUOTE(9), ML99_QUOTE(abcd))
  * @endcode
  */
 #define ML99_charEq(x, y) ML99_call(ML99_charEq, x, y)
@@ -146,13 +146,13 @@
  * #include <metalang/ident.h>
  *
  * // 't'
- * ML99_charLit(v(t))
+ * ML99_charLit(ML99_QUOTE(t))
  *
  * // '9'
- * ML99_charLit(v(9))
+ * ML99_charLit(ML99_QUOTE(9))
  *
  * // '_'
- * ML99_charLit(v(_))
+ * ML99_charLit(ML99_QUOTE(_))
  * @endcode
  *
  * @note The inverse of this function is impossible, i.e., you cannot get `q` from `'q'`.
@@ -170,11 +170,11 @@
  * #include <metalang99/ident.h>
  * #include <metalang99/variadics.h>
  *
- * #define F_IMPL(x) v([x])
+ * #define F_IMPL(x) ML99_QUOTE([x])
  * #define F_ARITY   1
  *
  * // [a] [b] [c] ... [x] [y] [z]
- * ML99_variadicsForEach(v(F), v(ML99_LOWERCASE_CHARS()))
+ * ML99_variadicsForEach(ML99_QUOTE(F), ML99_QUOTE(ML99_LOWERCASE_CHARS()))
  * @endcode
  */
 #define ML99_LOWERCASE_CHARS(...)                                                                  \
@@ -218,14 +218,14 @@
 
 #ifndef DOXYGEN_IGNORE
 
-#define ML99_detectIdent_IMPL(prefix, ident) v(ML99_DETECT_IDENT(prefix, ident))
-#define ML99_identEq_IMPL(prefix, x, y)      v(ML99_IDENT_EQ(prefix, x, y))
-#define ML99_charEq_IMPL(x, y)               v(ML99_CHAR_EQ(x, y))
-#define ML99_isLowercase_IMPL(x)             v(ML99_IS_LOWERCASE(x))
-#define ML99_isUppercase_IMPL(x)             v(ML99_IS_UPPERCASE(x))
-#define ML99_isDigit_IMPL(x)                 v(ML99_IS_DIGIT(x))
-#define ML99_isChar_IMPL(x)                  v(ML99_IS_CHAR(x))
-#define ML99_charLit_IMPL(x)                 v(ML99_CHAR_LIT(x))
+#define ML99_detectIdent_IMPL(prefix, ident) ML99_QUOTE(ML99_DETECT_IDENT(prefix, ident))
+#define ML99_identEq_IMPL(prefix, x, y)      ML99_QUOTE(ML99_IDENT_EQ(prefix, x, y))
+#define ML99_charEq_IMPL(x, y)               ML99_QUOTE(ML99_CHAR_EQ(x, y))
+#define ML99_isLowercase_IMPL(x)             ML99_QUOTE(ML99_IS_LOWERCASE(x))
+#define ML99_isUppercase_IMPL(x)             ML99_QUOTE(ML99_IS_UPPERCASE(x))
+#define ML99_isDigit_IMPL(x)                 ML99_QUOTE(ML99_IS_DIGIT(x))
+#define ML99_isChar_IMPL(x)                  ML99_QUOTE(ML99_IS_CHAR(x))
+#define ML99_charLit_IMPL(x)                 ML99_QUOTE(ML99_CHAR_LIT(x))
 
 #define ML99_UNDERSCORE_DETECTOR ML99_PRIV_UNDERSCORE_DETECTOR_
 #define ML99_C_KEYWORD_DETECTOR  ML99_PRIV_C_KEYWORD_DETECTOR_

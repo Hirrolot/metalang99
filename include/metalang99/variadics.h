@@ -26,7 +26,7 @@
  * #include <metalang99/variadics.h>
  *
  * // 3
- * ML99_variadicsCount(v(~, ~, ~))
+ * ML99_variadicsCount(ML99_QUOTE(~, ~, ~))
  *
  * // 1
  * ML99_variadicsCount()
@@ -43,10 +43,10 @@
  * #include <metalang99/variadics.h>
  *
  * // 1
- * ML99_variadicsIsSingle(v(~))
+ * ML99_variadicsIsSingle(ML99_QUOTE(~))
  *
  * // 0
- * ML99_variadicsIsSingle(v(~, ~, ~))
+ * ML99_variadicsIsSingle(ML99_QUOTE(~, ~, ~))
  * @endcode
  */
 #define ML99_variadicsIsSingle(...) ML99_call(ML99_variadicsIsSingle, __VA_ARGS__)
@@ -62,7 +62,7 @@
  * #include <metalang99/variadics.h>
  *
  * // 2
- * ML99_variadicsGet(1)(v(1, 2, 3))
+ * ML99_variadicsGet(1)(ML99_QUOTE(1, 2, 3))
  * @endcode
  */
 #define ML99_variadicsGet(i) ML99_PRIV_CAT(ML99_PRIV_variadicsGet_, i)
@@ -78,7 +78,7 @@
  * #include <metalang99/variadics.h>
  *
  * // 2, 3
- * ML99_variadicsTail(v(1, 2, 3))
+ * ML99_variadicsTail(ML99_QUOTE(1, 2, 3))
  * @endcode
  */
 #define ML99_variadicsTail(...) ML99_call(ML99_variadicsTail, __VA_ARGS__)
@@ -93,11 +93,11 @@
  * @code
  * #include <metalang99/variadics.h>
  *
- * #define F_IMPL(x) v(@x)
+ * #define F_IMPL(x) ML99_QUOTE(@x)
  * #define F_ARITY   1
  *
  * // @x @y @z
- * ML99_variadicsForEach(v(F), v(x, y, z))
+ * ML99_variadicsForEach(ML99_QUOTE(F), ML99_QUOTE(x, y, z))
  * @endcode
  */
 #define ML99_variadicsForEach(f, ...) ML99_call(ML99_variadicsForEach, f, __VA_ARGS__)
@@ -110,11 +110,11 @@
  * @code
  * #include <metalang99/variadics.h>
  *
- * #define F_IMPL(x, i) v(@x##i)
+ * #define F_IMPL(x, i) ML99_QUOTE(@x##i)
  * #define F_ARITY      2
  *
  * // @x0 @y1 @z2
- * ML99_variadicsForEachI(v(F), v(x, y, z))
+ * ML99_variadicsForEachI(ML99_QUOTE(F), ML99_QUOTE(x, y, z))
  * @endcode
  */
 #define ML99_variadicsForEachI(f, ...) ML99_call(ML99_variadicsForEachI, f, __VA_ARGS__)
@@ -155,8 +155,8 @@
 
 #ifndef DOXYGEN_IGNORE
 
-#define ML99_variadicsCount_IMPL(...)    v(ML99_VARIADICS_COUNT(__VA_ARGS__))
-#define ML99_variadicsIsSingle_IMPL(...) v(ML99_VARIADICS_IS_SINGLE(__VA_ARGS__))
+#define ML99_variadicsCount_IMPL(...)    ML99_QUOTE(ML99_VARIADICS_COUNT(__VA_ARGS__))
+#define ML99_variadicsIsSingle_IMPL(...) ML99_QUOTE(ML99_VARIADICS_IS_SINGLE(__VA_ARGS__))
 
 #define ML99_PRIV_variadicsGet_0(...) ML99_call(ML99_PRIV_variadicsGet_0, __VA_ARGS__)
 #define ML99_PRIV_variadicsGet_1(...) ML99_call(ML99_PRIV_variadicsGet_1, __VA_ARGS__)
@@ -167,14 +167,14 @@
 #define ML99_PRIV_variadicsGet_6(...) ML99_call(ML99_PRIV_variadicsGet_6, __VA_ARGS__)
 #define ML99_PRIV_variadicsGet_7(...) ML99_call(ML99_PRIV_variadicsGet_7, __VA_ARGS__)
 
-#define ML99_PRIV_variadicsGet_0_IMPL(...) v(ML99_VARIADICS_GET(0)(__VA_ARGS__))
-#define ML99_PRIV_variadicsGet_1_IMPL(...) v(ML99_VARIADICS_GET(1)(__VA_ARGS__))
-#define ML99_PRIV_variadicsGet_2_IMPL(...) v(ML99_VARIADICS_GET(2)(__VA_ARGS__))
-#define ML99_PRIV_variadicsGet_3_IMPL(...) v(ML99_VARIADICS_GET(3)(__VA_ARGS__))
-#define ML99_PRIV_variadicsGet_4_IMPL(...) v(ML99_VARIADICS_GET(4)(__VA_ARGS__))
-#define ML99_PRIV_variadicsGet_5_IMPL(...) v(ML99_VARIADICS_GET(5)(__VA_ARGS__))
-#define ML99_PRIV_variadicsGet_6_IMPL(...) v(ML99_VARIADICS_GET(6)(__VA_ARGS__))
-#define ML99_PRIV_variadicsGet_7_IMPL(...) v(ML99_VARIADICS_GET(7)(__VA_ARGS__))
+#define ML99_PRIV_variadicsGet_0_IMPL(...) ML99_QUOTE(ML99_VARIADICS_GET(0)(__VA_ARGS__))
+#define ML99_PRIV_variadicsGet_1_IMPL(...) ML99_QUOTE(ML99_VARIADICS_GET(1)(__VA_ARGS__))
+#define ML99_PRIV_variadicsGet_2_IMPL(...) ML99_QUOTE(ML99_VARIADICS_GET(2)(__VA_ARGS__))
+#define ML99_PRIV_variadicsGet_3_IMPL(...) ML99_QUOTE(ML99_VARIADICS_GET(3)(__VA_ARGS__))
+#define ML99_PRIV_variadicsGet_4_IMPL(...) ML99_QUOTE(ML99_VARIADICS_GET(4)(__VA_ARGS__))
+#define ML99_PRIV_variadicsGet_5_IMPL(...) ML99_QUOTE(ML99_VARIADICS_GET(5)(__VA_ARGS__))
+#define ML99_PRIV_variadicsGet_6_IMPL(...) ML99_QUOTE(ML99_VARIADICS_GET(6)(__VA_ARGS__))
+#define ML99_PRIV_variadicsGet_7_IMPL(...) ML99_QUOTE(ML99_VARIADICS_GET(7)(__VA_ARGS__))
 
 #define ML99_PRIV_VARIADICS_GET_0(...) ML99_PRIV_VARIADICS_GET_AUX_0(__VA_ARGS__, ~)
 #define ML99_PRIV_VARIADICS_GET_1(...) ML99_PRIV_VARIADICS_GET_AUX_1(__VA_ARGS__, ~)
@@ -194,7 +194,7 @@
 #define ML99_PRIV_VARIADICS_GET_AUX_6(_a, _b, _c, _d, _e, _f, g, ...)     g
 #define ML99_PRIV_VARIADICS_GET_AUX_7(_a, _b, _c, _d, _e, _f, _g, h, ...) h
 
-#define ML99_variadicsTail_IMPL(...) v(ML99_VARIADICS_TAIL(__VA_ARGS__))
+#define ML99_variadicsTail_IMPL(...) ML99_QUOTE(ML99_VARIADICS_TAIL(__VA_ARGS__))
 
 // ML99_variadicsForEach_IMPL {
 

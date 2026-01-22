@@ -10,7 +10,7 @@
 #define ML99_div_IMPL(x, y)                                                                        \
     ML99_matchWithArgs_IMPL(ML99_PRIV_DIV_CHECKED(x, y), ML99_PRIV_DIV_, x, y)
 #define ML99_PRIV_DIV_nothing_IMPL(_, x, y) ML99_fatal(ML99_div, x is not divisible by y)
-#define ML99_PRIV_DIV_just_IMPL(n, _x, _y)  v(n)
+#define ML99_PRIV_DIV_just_IMPL(n, _x, _y)  ML99_QUOTE(n)
 
 #define ML99_PRIV_DIV_CHECKED(x, y)                                                                \
     ML99_PRIV_IF(                                                                                  \

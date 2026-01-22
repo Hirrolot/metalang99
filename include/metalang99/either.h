@@ -31,10 +31,10 @@
  * #include <metalang99/either.h>
  *
  * // 1
- * ML99_isLeft(ML99_left(v(123)))
+ * ML99_isLeft(ML99_left(ML99_QUOTE(123)))
  *
  * // 0
- * ML99_isLeft(ML99_right(v(123)))
+ * ML99_isLeft(ML99_right(ML99_QUOTE(123)))
  * @endcode
  */
 #define ML99_isLeft(either) ML99_call(ML99_isLeft, either)
@@ -48,10 +48,10 @@
  * #include <metalang99/either.h>
  *
  * // 1
- * ML99_isRight(ML99_right(v(123)))
+ * ML99_isRight(ML99_right(ML99_QUOTE(123)))
  *
  * // 0
- * ML99_isRight(ML99_left(v(123)))
+ * ML99_isRight(ML99_left(ML99_QUOTE(123)))
  * @endcode
  */
 #define ML99_isRight(either) ML99_call(ML99_isRight, either)
@@ -66,13 +66,13 @@
  * #include <metalang99/nat.h>
  *
  * // 1
- * ML99_eitherEq(v(ML99_natEq), ML99_left(v(123)), ML99_left(v(123)))
+ * ML99_eitherEq(ML99_QUOTE(ML99_natEq), ML99_left(ML99_QUOTE(123)), ML99_left(ML99_QUOTE(123)))
  *
  * // 0
- * ML99_eitherEq(v(ML99_natEq), ML99_right(v(123)), ML99_left(v(8)))
+ * ML99_eitherEq(ML99_QUOTE(ML99_natEq), ML99_right(ML99_QUOTE(123)), ML99_left(ML99_QUOTE(8)))
  *
  * // 0
- * ML99_eitherEq(v(ML99_natEq), ML99_right(v(123)), ML99_left(v(123)))
+ * ML99_eitherEq(ML99_QUOTE(ML99_natEq), ML99_right(ML99_QUOTE(123)), ML99_left(ML99_QUOTE(123)))
  * @endcode
  */
 #define ML99_eitherEq(cmp, either, other) ML99_call(ML99_eitherEq, cmp, either, other)
@@ -86,10 +86,10 @@
  * #include <metalang99/either.h>
  *
  * // 123
- * ML99_unwrapLeft(ML99_left(v(123)))
+ * ML99_unwrapLeft(ML99_left(ML99_QUOTE(123)))
  *
  * // Emits a fatal error.
- * ML99_unwrapLeft(ML99_right(v(123)))
+ * ML99_unwrapLeft(ML99_right(ML99_QUOTE(123)))
  * @endcode
  */
 #define ML99_unwrapLeft(either) ML99_call(ML99_unwrapLeft, either)
@@ -103,10 +103,10 @@
  * #include <metalang99/either.h>
  *
  * // 123
- * ML99_unwrapRight(ML99_right(v(123)))
+ * ML99_unwrapRight(ML99_right(ML99_QUOTE(123)))
  *
  * // Emits a fatal error.
- * ML99_unwrapRight(ML99_left(v(123)))
+ * ML99_unwrapRight(ML99_left(ML99_QUOTE(123)))
  * @endcode
  */
 #define ML99_unwrapRight(either) ML99_call(ML99_unwrapRight, either)
@@ -118,11 +118,11 @@
 
 #ifndef DOXYGEN_IGNORE
 
-#define ML99_left_IMPL(x)  v(ML99_LEFT(x))
-#define ML99_right_IMPL(x) v(ML99_RIGHT(x))
+#define ML99_left_IMPL(x)  ML99_QUOTE(ML99_LEFT(x))
+#define ML99_right_IMPL(x) ML99_QUOTE(ML99_RIGHT(x))
 
-#define ML99_isLeft_IMPL(either)  v(ML99_IS_LEFT(either))
-#define ML99_isRight_IMPL(either) v(ML99_IS_RIGHT(either))
+#define ML99_isLeft_IMPL(either)  ML99_QUOTE(ML99_IS_LEFT(either))
+#define ML99_isRight_IMPL(either) ML99_QUOTE(ML99_IS_RIGHT(either))
 
 // ML99_eitherEq_IMPL {
 
@@ -142,14 +142,14 @@
 // } (ML99_eitherEq_IMPL)
 
 #define ML99_unwrapLeft_IMPL(either)      ML99_match_IMPL(either, ML99_PRIV_unwrapLeft_)
-#define ML99_PRIV_unwrapLeft_left_IMPL(x) v(x)
+#define ML99_PRIV_unwrapLeft_left_IMPL(x) ML99_QUOTE(x)
 #define ML99_PRIV_unwrapLeft_right_IMPL(_x)                                                        \
     ML99_fatal(ML99_unwrapLeft, expected ML99_left but found ML99_right)
 
 #define ML99_unwrapRight_IMPL(either) ML99_match_IMPL(either, ML99_PRIV_unwrapRight_)
 #define ML99_PRIV_unwrapRight_left_IMPL(_x)                                                        \
     ML99_fatal(ML99_unwrapRight, expected ML99_right but found ML99_left)
-#define ML99_PRIV_unwrapRight_right_IMPL(x) v(x)
+#define ML99_PRIV_unwrapRight_right_IMPL(x) ML99_QUOTE(x)
 
 #define ML99_PRIV_IS_LEFT(either) ML99_DETECT_IDENT(ML99_PRIV_IS_LEFT_, ML99_CHOICE_TAG(either))
 #define ML99_PRIV_IS_LEFT_left    ()

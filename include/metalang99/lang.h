@@ -20,9 +20,9 @@
  * @code
  * #include <metalang99/lang.h>
  *
- * #define F_IMPL(x, y) v(x + y)
+ * #define F_IMPL(x, y) ML99_QUOTE(x + y)
  *
- * ML99_EVAL(v(abc ~ 123), ML99_call(F, v(1, 2)))
+ * ML99_EVAL(ML99_QUOTE(abc ~ 123), ML99_call(F, ML99_QUOTE(1, 2)))
  * @endcode
  */
 #define ML99_EVAL(...) ML99_PRIV_EVAL(__VA_ARGS__)
@@ -36,7 +36,7 @@
 /**
  * Invokes a metafunction @p ident with unevaluated arguments.
  *
- * It is semantically the same as `ML99_call(ident, v(...))` but performs one less reduction
+ * It is semantically the same as `ML99_call(ident, ML99_QUOTE(...))` but performs one less reduction
  * steps.
  */
 #define ML99_callUneval(ident, ...) (0callUneval, ident, __VA_ARGS__)
@@ -80,11 +80,11 @@
  * @code
  * #include <metalang99/lang.h>
  *
- * #define F_IMPL(x, y) v(x##y)
+ * #define F_IMPL(x, y) ML99_QUOTE(x##y)
  * #define F_ARITY      2
  *
  * // ab
- * ML99_appl(ML99_appl(v(F), v(a)), v(b))
+ * ML99_appl(ML99_appl(ML99_QUOTE(F), ML99_QUOTE(a)), ML99_QUOTE(b))
  * @endcode
  *
  * @note Currently, the maximum arity is #ML99_NAT_MAX. However, some compilers might not support
@@ -100,11 +100,11 @@
  * @code
  * #include <metalang99/lang.h>
  *
- * #define F_IMPL(x, y) v(x##y)
+ * #define F_IMPL(x, y) ML99_QUOTE(x##y)
  * #define F_ARITY      2
  *
  * // ab
- * ML99_appl2(v(F), v(a), v(b))
+ * ML99_appl2(ML99_QUOTE(F), ML99_QUOTE(a), ML99_QUOTE(b))
  * @endcode
  */
 #define ML99_appl2(f, a, b) ML99_call(ML99_appl2, f, a, b)
@@ -127,22 +127,44 @@
  * @code
  * #include <metalang99/lang.h>
  *
- * #define F_IMPL(x) v((x + 1))
- * #define G_IMPL(x) v((x * 8))
+ * #define F_IMPL(x) ML99_QUOTE((x + 1))
+ * #define G_IMPL(x) ML99_QUOTE((x * 8))
  *
  * #define F_ARITY 1
  * #define G_ARITY 1
  *
  * // ((3 * 8) + 1)
- * ML99_appl(ML99_compose(v(F), v(G)), v(3))
+ * ML99_appl(ML99_compose(ML99_QUOTE(F), ML99_QUOTE(G)), ML99_QUOTE(3))
  * @endcode
  */
 #define ML99_compose(f, g) ML99_call(ML99_compose, f, g)
 
 /**
  * A value that is pasted as-is; no evaluation occurs on provided arguments.
+ *
+ * # Examples
+ *
+ * @code
+ * #include <metalang99/lang.h>
+ *
+ * #define F_IMPL(x) ML99_QUOTE(~x)
+ *
+ * #define PROG ML99_TERMS(ML99_QUOTE(1), ML99_QUOTE(2), ML99_call(F, ML99_QUOTE(7)))
+ *
+ * // The same as `PROG` pasted into a source file.
+ * ML99_EVAL(ML99_QUOTE(PROG))
+ * @endcode
  */
-#define v(...) (0v, __VA_ARGS__)
+#define ML99_QUOTE(...) (0v, __VA_ARGS__)
+
+#ifndef ML99_NO_SHORT_NAMES
+/**
+ * A short alias for #ML99_QUOTE.
+ *
+ * @note Can be disabled by defining ML99_NO_SHORT_NAMES.
+ */
+#define v(...) ML99_QUOTE(__VA_ARGS__)
+#endif
 
 // clang-format off
 /**
@@ -182,10 +204,10 @@
  * @code
  * #include <metalang99/lang.h>
  *
- * #define F_IMPL(x) v(~)
+ * #define F_IMPL(x) ML99_QUOTE(~)
  *
  * // 123
- * ML99_call(F, ML99_abort(v(123)))
+ * ML99_call(F, ML99_abort(ML99_QUOTE(123)))
  * @endcode
  */
 #define ML99_abort(...) (0abort, __VA_ARGS__)
@@ -200,35 +222,15 @@
  * @code
  * #include <metalang99/lang.h>
  *
- * #define F_IMPL(x) ML99_TERMS(v(1), v(x), v(2))
+ * #define F_IMPL(x) ML99_TERMS(ML99_QUOTE(1), ML99_QUOTE(x), ML99_QUOTE(2))
  * @endcode
  */
 #define ML99_TERMS(...) __VA_ARGS__
 
-/**
- * Delays evaluation for provided terms.
- *
- * `ML99_QUOTE(...)` is functionally equivalent to `v(...)`.
- *
- * # Examples
- *
- * @code
- * #include <metalang99/lang.h>
- *
- * #define F_IMPL(x) v(~x)
- *
- * #define PROG ML99_TERMS(v(1), v(2), ML99_call(F, v(7)))
- *
- * // The same as `PROG` pasted into a source file.
- * ML99_EVAL(ML99_QUOTE(PROG))
- * @endcode
- */
-#define ML99_QUOTE(...) v(__VA_ARGS__)
-
 #ifndef DOXYGEN_IGNORE
 
 #define ML99_compose_IMPL(f, g)         ML99_appl2_IMPL(ML99_PRIV_compose, f, g)
-#define ML99_PRIV_compose_IMPL(f, g, x) ML99_appl(v(f), ML99_appl_IMPL(g, x))
+#define ML99_PRIV_compose_IMPL(f, g, x) ML99_appl(ML99_QUOTE(f), ML99_appl_IMPL(g, x))
 
 // Arity specifiers {
 

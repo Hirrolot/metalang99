@@ -43,7 +43,7 @@
  * #include <metalang99/choice.h>
  *
  * // foo
- * ML99_choiceTag(ML99_choice(v(foo), v(1, 2, 3)))
+ * ML99_choiceTag(ML99_choice(ML99_QUOTE(foo), ML99_QUOTE(1, 2, 3)))
  * @endcode
  */
 #define ML99_choiceTag(choice) ML99_call(ML99_choiceTag, choice)
@@ -59,7 +59,7 @@
  * #include <metalang99/choice.h>
  *
  * // 1, 2, 3
- * ML99_choiceData(ML99_choice(v(foo), v(1, 2, 3)))
+ * ML99_choiceData(ML99_choice(ML99_QUOTE(foo), ML99_QUOTE(1, 2, 3)))
  * @endcode
  */
 #define ML99_choiceData(choice) ML99_call(ML99_choiceData, choice)
@@ -87,10 +87,10 @@
  * @code
  * #include <metalang99/choice.h>
  *
- * #define MATCH_A_IMPL(x, y, z) v(x ~ y ~ z)
+ * #define MATCH_A_IMPL(x, y, z) ML99_QUOTE(x ~ y ~ z)
  *
  * // 123 ~ 456 ~ 789
- * ML99_matchWithArgs(ML99_choice(v(A), v(123)), v(MATCH_), v(456, 789))
+ * ML99_matchWithArgs(ML99_choice(ML99_QUOTE(A), ML99_QUOTE(123)), ML99_QUOTE(MATCH_), ML99_QUOTE(456, 789))
  * @endcode
  */
 #define ML99_matchWithArgs(choice, matcher, ...)                                                   \
@@ -102,9 +102,9 @@
 
 #ifndef DOXYGEN_IGNORE
 
-#define ML99_choice_IMPL(tag, ...)   v(ML99_CHOICE(tag, __VA_ARGS__))
-#define ML99_choiceTag_IMPL(choice)  v(ML99_CHOICE_TAG(choice))
-#define ML99_choiceData_IMPL(choice) v(ML99_CHOICE_DATA(choice))
+#define ML99_choice_IMPL(tag, ...)   ML99_QUOTE(ML99_CHOICE(tag, __VA_ARGS__))
+#define ML99_choiceTag_IMPL(choice)  ML99_QUOTE(ML99_CHOICE_TAG(choice))
+#define ML99_choiceData_IMPL(choice) ML99_QUOTE(ML99_CHOICE_DATA(choice))
 
 #define ML99_match_IMPL(choice, matcher)                                                           \
     ML99_callUneval(ML99_PRIV_CAT(matcher, ML99_PRIV_HEAD_AUX choice), ML99_PRIV_TAIL_AUX choice)

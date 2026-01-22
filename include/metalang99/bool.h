@@ -30,10 +30,10 @@
  * #include <metalang99/bool.h>
  *
  * // 1
- * ML99_not(v(0))
+ * ML99_not(ML99_QUOTE(0))
  *
  * // 0
- * ML99_not(v(1))
+ * ML99_not(ML99_QUOTE(1))
  * @endcode
  */
 #define ML99_not(x) ML99_call(ML99_not, x)
@@ -47,16 +47,16 @@
  * #include <metalang99/bool.h>
  *
  * // 0
- * ML99_and(v(0), v(0))
+ * ML99_and(ML99_QUOTE(0), ML99_QUOTE(0))
  *
  * // 0
- * ML99_and(v(0), v(1))
+ * ML99_and(ML99_QUOTE(0), ML99_QUOTE(1))
  *
  * // 0
- * ML99_and(v(1), v(0))
+ * ML99_and(ML99_QUOTE(1), ML99_QUOTE(0))
  *
  * // 1
- * ML99_and(v(1), v(1))
+ * ML99_and(ML99_QUOTE(1), ML99_QUOTE(1))
  * @endcode
  */
 #define ML99_and(x, y) ML99_call(ML99_and, x, y)
@@ -69,16 +69,16 @@
  * #include <metalang99/bool.h>
  *
  * // 0
- * ML99_or(v(0), v(0))
+ * ML99_or(ML99_QUOTE(0), ML99_QUOTE(0))
  *
  * // 1
- * ML99_or(v(0), v(1))
+ * ML99_or(ML99_QUOTE(0), ML99_QUOTE(1))
  *
  * // 1
- * ML99_or(v(1), v(0))
+ * ML99_or(ML99_QUOTE(1), ML99_QUOTE(0))
  *
  * // 1
- * ML99_or(v(1), v(1))
+ * ML99_or(ML99_QUOTE(1), ML99_QUOTE(1))
  * @endcode
  */
 #define ML99_or(x, y) ML99_call(ML99_or, x, y)
@@ -92,16 +92,16 @@
  * #include <metalang99/bool.h>
  *
  * // 0
- * ML99_xor(v(0), v(0))
+ * ML99_xor(ML99_QUOTE(0), ML99_QUOTE(0))
  *
  * // 1
- * ML99_xor(v(0), v(1))
+ * ML99_xor(ML99_QUOTE(0), ML99_QUOTE(1))
  *
  * // 1
- * ML99_xor(v(1), v(0))
+ * ML99_xor(ML99_QUOTE(1), ML99_QUOTE(0))
  *
  * // 0
- * ML99_xor(v(1), v(1))
+ * ML99_xor(ML99_QUOTE(1), ML99_QUOTE(1))
  * @endcode
  */
 #define ML99_xor(x, y) ML99_call(ML99_xor, x, y)
@@ -115,16 +115,16 @@
  * #include <metalang99/bool.h>
  *
  * // 1
- * ML99_boolEq(v(0), v(0))
+ * ML99_boolEq(ML99_QUOTE(0), ML99_QUOTE(0))
  *
  * // 0
- * ML99_boolEq(v(0), v(1))
+ * ML99_boolEq(ML99_QUOTE(0), ML99_QUOTE(1))
  *
  * // 0
- * ML99_boolEq(v(1), v(0))
+ * ML99_boolEq(ML99_QUOTE(1), ML99_QUOTE(0))
  *
  * // 1
- * ML99_boolEq(v(1), v(1))
+ * ML99_boolEq(ML99_QUOTE(1), ML99_QUOTE(1))
  * @endcode
  */
 #define ML99_boolEq(x, y) ML99_call(ML99_boolEq, x, y)
@@ -137,14 +137,14 @@
  * @code
  * #include <metalang99/bool.h>
  *
- * #define MATCH_1_IMPL() v(Billie)
- * #define MATCH_0_IMPL() v(Jean)
+ * #define MATCH_1_IMPL() ML99_QUOTE(Billie)
+ * #define MATCH_0_IMPL() ML99_QUOTE(Jean)
  *
  * // Billie
- * ML99_boolMatch(v(1), v(MATCH_))
+ * ML99_boolMatch(ML99_QUOTE(1), ML99_QUOTE(MATCH_))
  *
  * // Jean
- * ML99_boolMatch(v(0), v(MATCH_))
+ * ML99_boolMatch(ML99_QUOTE(0), ML99_QUOTE(MATCH_))
  * @endcode
  *
  * @note This function calls @p f with #ML99_call, so no partial application occurs, and so
@@ -160,14 +160,14 @@
  * @code
  * #include <metalang99/bool.h>
  *
- * #define MATCH_1_IMPL(x, y, z) v(Billie ~ x y z)
- * #define MATCH_0_IMPL(x, y, z) v(Jean ~ x y z)
+ * #define MATCH_1_IMPL(x, y, z) ML99_QUOTE(Billie ~ x y z)
+ * #define MATCH_0_IMPL(x, y, z) ML99_QUOTE(Jean ~ x y z)
  *
  * // Billie ~ 1 2 3
- * ML99_boolMatchWithArgs(v(1), v(MATCH_), v(1, 2, 3))
+ * ML99_boolMatchWithArgs(ML99_QUOTE(1), ML99_QUOTE(MATCH_), ML99_QUOTE(1, 2, 3))
  *
  * // Jean ~ 1 2 3
- * ML99_boolMatchWithArgs(v(0), v(MATCH_), v(1, 2, 3))
+ * ML99_boolMatchWithArgs(ML99_QUOTE(0), ML99_QUOTE(MATCH_), ML99_QUOTE(1, 2, 3))
  * @endcode
  */
 #define ML99_boolMatchWithArgs(x, matcher, ...)                                                    \
@@ -182,10 +182,10 @@
  * #include <metalang99/bool.h>
  *
  * // 123
- * ML99_if(v(1), v(123), v(18))
+ * ML99_if(ML99_QUOTE(1), ML99_QUOTE(123), ML99_QUOTE(18))
  *
  * // 18
- * ML99_if(v(0), v(123), v(18))
+ * ML99_if(ML99_QUOTE(0), ML99_QUOTE(123), ML99_QUOTE(18))
  * @endcode
  */
 #define ML99_if(cond, x, y) ML99_call(ML99_if, cond, x, y)
@@ -213,19 +213,19 @@
 
 #ifndef DOXYGEN_IGNORE
 
-#define ML99_true_IMPL(...)  v(ML99_TRUE())
-#define ML99_false_IMPL(...) v(ML99_FALSE())
+#define ML99_true_IMPL(...)  ML99_QUOTE(ML99_TRUE())
+#define ML99_false_IMPL(...) ML99_QUOTE(ML99_FALSE())
 
-#define ML99_not_IMPL(x)       v(ML99_NOT(x))
-#define ML99_and_IMPL(x, y)    v(ML99_AND(x, y))
-#define ML99_or_IMPL(x, y)     v(ML99_OR(x, y))
-#define ML99_xor_IMPL(x, y)    v(ML99_XOR(x, y))
-#define ML99_boolEq_IMPL(x, y) v(ML99_BOOL_EQ(x, y))
+#define ML99_not_IMPL(x)       ML99_QUOTE(ML99_NOT(x))
+#define ML99_and_IMPL(x, y)    ML99_QUOTE(ML99_AND(x, y))
+#define ML99_or_IMPL(x, y)     ML99_QUOTE(ML99_OR(x, y))
+#define ML99_xor_IMPL(x, y)    ML99_QUOTE(ML99_XOR(x, y))
+#define ML99_boolEq_IMPL(x, y) ML99_QUOTE(ML99_BOOL_EQ(x, y))
 
 #define ML99_boolMatch_IMPL(x, matcher)              ML99_callUneval(matcher##x, )
 #define ML99_boolMatchWithArgs_IMPL(x, matcher, ...) ML99_callUneval(matcher##x, __VA_ARGS__)
 
-#define ML99_if_IMPL(cond, x, y) v(ML99_PRIV_IF(cond, x, y))
+#define ML99_if_IMPL(cond, x, y) ML99_QUOTE(ML99_PRIV_IF(cond, x, y))
 
 // Arity specifiers {
 

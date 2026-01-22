@@ -30,7 +30,7 @@
  * #include <metalang99/gen.h>
  *
  * // int x = 5;
- * ML99_semicoloned(v(int x = 5))
+ * ML99_semicoloned(ML99_QUOTE(int x = 5))
  * @endcode
  */
 #define ML99_semicoloned(...) ML99_call(ML99_semicoloned, __VA_ARGS__)
@@ -44,7 +44,7 @@
  * #include <metalang99/gen.h>
  *
  * // { int a, b, c; }
- * ML99_braced(v(int a, b, c;))
+ * ML99_braced(ML99_QUOTE(int a, b, c;))
  * @endcode
  */
 #define ML99_braced(...) ML99_call(ML99_braced, __VA_ARGS__)
@@ -58,7 +58,7 @@
  * #include <metalang99/gen.h>
  *
  * // x = 5, 6, 7
- * ML99_assign(v(x), v(5, 6, 7))
+ * ML99_assign(ML99_QUOTE(x), ML99_QUOTE(5, 6, 7))
  * @endcode
  */
 #define ML99_assign(lhs, ...) ML99_call(ML99_assign, lhs, __VA_ARGS__)
@@ -88,7 +88,7 @@
  * #include <metalang99/gen.h>
  *
  * // If you are on C11.
- * ML99_invoke(v(_Static_assert), v(1 == 1, "Must be true"))
+ * ML99_invoke(ML99_QUOTE(_Static_assert), ML99_QUOTE(1 == 1, "Must be true"))
  * @endcode
  */
 #define ML99_invoke(f, ...) ML99_call(ML99_invoke, f, __VA_ARGS__)
@@ -109,7 +109,7 @@
  * // if (1 == 1) {
  * //     printf("x = %d\n", x);
  * // }
- * ML99_prefixedBlock(v(if (1 == 1)), v(printf("x = %d\n", x);))
+ * ML99_prefixedBlock(ML99_QUOTE(if (1 == 1)), ML99_QUOTE(printf("x = %d\n", x);))
  * @endcode
  */
 #define ML99_prefixedBlock(prefix, ...) ML99_call(ML99_prefixedBlock, prefix, __VA_ARGS__)
@@ -123,7 +123,7 @@
  * #include <metalang99/gen.h>
  *
  * // typedef struct { int x, y; } Point;
- * ML99_typedef(v(Point), v(struct { int x, y; }))
+ * ML99_typedef(ML99_QUOTE(Point), ML99_QUOTE(struct { int x, y; }))
  * @endcode
  */
 #define ML99_typedef(ident, ...) ML99_call(ML99_typedef, ident, __VA_ARGS__)
@@ -137,7 +137,7 @@
  * #include <metalang99/gen.h>
  *
  * // struct Point { int x, y; }
- * ML99_struct(v(Point), v(int x, y;))
+ * ML99_struct(ML99_QUOTE(Point), ML99_QUOTE(int x, y;))
  * @endcode
  */
 #define ML99_struct(ident, ...) ML99_call(ML99_struct, ident, __VA_ARGS__)
@@ -151,7 +151,7 @@
  * #include <metalang99/gen.h>
  *
  * // struct { int x, y; }
- * ML99_struct(v(int x, y;))
+ * ML99_struct(ML99_QUOTE(int x, y;))
  * @endcode
  */
 #define ML99_anonStruct(...) ML99_call(ML99_anonStruct, __VA_ARGS__)
@@ -185,10 +185,10 @@
  * #include <metalang99/gen.h>
  *
  * // int (*add)(int x, int y)
- * ML99_fnPtr(v(int), v(add), v(int x), v(int y))
+ * ML99_fnPtr(ML99_QUOTE(int), ML99_QUOTE(add), ML99_QUOTE(int x), ML99_QUOTE(int y))
  *
  * // const char *(*title)(void)
- * ML99_fnPtr(v(const char *), v(title), v(void))
+ * ML99_fnPtr(ML99_QUOTE(const char *), ML99_QUOTE(title), ML99_QUOTE(void))
  * @endcode
  */
 #define ML99_fnPtr(ret_ty, name, ...) ML99_call(ML99_fnPtr, ret_ty, name, __VA_ARGS__)
@@ -207,7 +207,7 @@
  * #include <metalang99/gen.h>
  *
  * // ~ ~ ~ ~ ~
- * ML99_times(v(5), v(~))
+ * ML99_times(ML99_QUOTE(5), ML99_QUOTE(~))
  * @endcode
  */
 #define ML99_times(n, ...) ML99_call(ML99_times, n, __VA_ARGS__)
@@ -222,7 +222,7 @@
  * #include <metalang99/util.h>
  *
  * // _0 _1 _2
- * ML99_repeat(v(3), ML99_appl(v(ML99_cat), v(_)))
+ * ML99_repeat(ML99_QUOTE(3), ML99_appl(ML99_QUOTE(ML99_cat), ML99_QUOTE(_)))
  * @endcode
  */
 #define ML99_repeat(n, f) ML99_call(ML99_repeat, n, f)
@@ -238,7 +238,7 @@
  * #include <metalang99/gen.h>
  *
  * // (int _0, long long _1, const char * _2)
- * ML99_indexedParams(ML99_list(v(int, long long, const char *)))
+ * ML99_indexedParams(ML99_list(ML99_QUOTE(int, long long, const char *)))
  *
  * // (void)
  * ML99_indexedParams(ML99_nil())
@@ -257,7 +257,7 @@
  * #include <metalang99/gen.h>
  *
  * // int _0; long long _1; const char * _2;
- * ML99_indexedFields(ML99_list(v(int, long long, const char *)))
+ * ML99_indexedFields(ML99_list(ML99_QUOTE(int, long long, const char *)))
  *
  * // ML99_empty()
  * ML99_indexedFields(ML99_nil())
@@ -276,10 +276,10 @@
  * #include <metalang99/gen.h>
  *
  * // { _0, _1, _2 }
- * ML99_indexedInitializerList(v(3))
+ * ML99_indexedInitializerList(ML99_QUOTE(3))
  *
  * // { 0 }
- * ML99_indexedInitializerList(v(0))
+ * ML99_indexedInitializerList(ML99_QUOTE(0))
  * @endcode
  */
 #define ML99_indexedInitializerList(n) ML99_call(ML99_indexedInitializerList, n)
@@ -295,41 +295,41 @@
  * #include <metalang99/gen.h>
  *
  * // _0, _1, _2
- * ML99_indexedArgs(v(3))
+ * ML99_indexedArgs(ML99_QUOTE(3))
  *
  * // ML99_empty()
- * ML99_indexedArgs(v(0))
+ * ML99_indexedArgs(ML99_QUOTE(0))
  * @endcode
  */
 #define ML99_indexedArgs(n) ML99_call(ML99_indexedArgs, n)
 
 #ifndef DOXYGEN_IGNORE
 
-#define ML99_semicoloned_IMPL(...)                    v(__VA_ARGS__;)
-#define ML99_braced_IMPL(...)                         v({__VA_ARGS__})
-#define ML99_assign_IMPL(lhs, ...)                    v(lhs = __VA_ARGS__)
-#define ML99_assignStmt_IMPL(lhs, ...)                v(lhs = __VA_ARGS__;)
-#define ML99_assignInitializerList_IMPL(lhs, ...)     v(lhs = {__VA_ARGS__})
-#define ML99_assignInitializerListStmt_IMPL(lhs, ...) v(lhs = {__VA_ARGS__};)
-#define ML99_invoke_IMPL(f, ...)                      v(f(__VA_ARGS__))
-#define ML99_invokeStmt_IMPL(f, ...)                  v(f(__VA_ARGS__);)
-#define ML99_typedef_IMPL(ident, ...)                 v(typedef __VA_ARGS__ ident;)
-#define ML99_fnPtr_IMPL(ret_ty, name, ...)            v(ret_ty (*name)(__VA_ARGS__))
-#define ML99_fnPtrStmt_IMPL(ret_ty, name, ...)        v(ret_ty (*name)(__VA_ARGS__);)
+#define ML99_semicoloned_IMPL(...)                    ML99_QUOTE(__VA_ARGS__;)
+#define ML99_braced_IMPL(...)                         ML99_QUOTE({__VA_ARGS__})
+#define ML99_assign_IMPL(lhs, ...)                    ML99_QUOTE(lhs = __VA_ARGS__)
+#define ML99_assignStmt_IMPL(lhs, ...)                ML99_QUOTE(lhs = __VA_ARGS__;)
+#define ML99_assignInitializerList_IMPL(lhs, ...)     ML99_QUOTE(lhs = {__VA_ARGS__})
+#define ML99_assignInitializerListStmt_IMPL(lhs, ...) ML99_QUOTE(lhs = {__VA_ARGS__};)
+#define ML99_invoke_IMPL(f, ...)                      ML99_QUOTE(f(__VA_ARGS__))
+#define ML99_invokeStmt_IMPL(f, ...)                  ML99_QUOTE(f(__VA_ARGS__);)
+#define ML99_typedef_IMPL(ident, ...)                 ML99_QUOTE(typedef __VA_ARGS__ ident;)
+#define ML99_fnPtr_IMPL(ret_ty, name, ...)            ML99_QUOTE(ret_ty (*name)(__VA_ARGS__))
+#define ML99_fnPtrStmt_IMPL(ret_ty, name, ...)        ML99_QUOTE(ret_ty (*name)(__VA_ARGS__);)
 
 // clang-format off
-#define ML99_prefixedBlock_IMPL(prefix, ...) v(prefix {__VA_ARGS__})
-#define ML99_struct_IMPL(ident, ...) v(struct ident {__VA_ARGS__})
-#define ML99_anonStruct_IMPL(...) v(struct {__VA_ARGS__})
-#define ML99_union_IMPL(ident, ...) v(union ident {__VA_ARGS__})
-#define ML99_anonUnion_IMPL(...) v(union {__VA_ARGS__})
-#define ML99_enum_IMPL(ident, ...) v(enum ident {__VA_ARGS__})
-#define ML99_anonEnum_IMPL(...) v(enum {__VA_ARGS__})
+#define ML99_prefixedBlock_IMPL(prefix, ...) ML99_QUOTE(prefix {__VA_ARGS__})
+#define ML99_struct_IMPL(ident, ...) ML99_QUOTE(struct ident {__VA_ARGS__})
+#define ML99_anonStruct_IMPL(...) ML99_QUOTE(struct {__VA_ARGS__})
+#define ML99_union_IMPL(ident, ...) ML99_QUOTE(union ident {__VA_ARGS__})
+#define ML99_anonUnion_IMPL(...) ML99_QUOTE(union {__VA_ARGS__})
+#define ML99_enum_IMPL(ident, ...) ML99_QUOTE(enum ident {__VA_ARGS__})
+#define ML99_anonEnum_IMPL(...) ML99_QUOTE(enum {__VA_ARGS__})
 // clang-format on
 
 #define ML99_times_IMPL(n, ...)        ML99_natMatchWithArgs_IMPL(n, ML99_PRIV_times_, __VA_ARGS__)
 #define ML99_PRIV_times_Z_IMPL         ML99_empty_IMPL
-#define ML99_PRIV_times_S_IMPL(i, ...) ML99_TERMS(v(__VA_ARGS__), ML99_times_IMPL(i, __VA_ARGS__))
+#define ML99_PRIV_times_S_IMPL(i, ...) ML99_TERMS(ML99_QUOTE(__VA_ARGS__), ML99_times_IMPL(i, __VA_ARGS__))
 
 #define ML99_repeat_IMPL(n, f)        ML99_natMatchWithArgs_IMPL(n, ML99_PRIV_repeat_, f)
 #define ML99_PRIV_repeat_Z_IMPL       ML99_empty_IMPL
@@ -340,14 +340,14 @@
 #define ML99_indexedParams_IMPL(type_list)                                                         \
     ML99_tuple(ML99_PRIV_IF(                                                                       \
         ML99_IS_NIL(type_list),                                                                    \
-        v(void),                                                                                   \
+        ML99_QUOTE(void),                                                                                   \
         ML99_variadicsTail(ML99_PRIV_indexedParamsAux_IMPL(type_list, 0))))
 
 #define ML99_PRIV_indexedParamsAux_IMPL(type_list, i)                                              \
     ML99_matchWithArgs_IMPL(type_list, ML99_PRIV_indexedParams_, i)
 #define ML99_PRIV_indexedParams_nil_IMPL ML99_empty_IMPL
 #define ML99_PRIV_indexedParams_cons_IMPL(x, xs, i)                                                \
-    ML99_TERMS(v(, x _##i), ML99_PRIV_indexedParamsAux_IMPL(xs, ML99_INC(i)))
+    ML99_TERMS(ML99_QUOTE(, x _##i), ML99_PRIV_indexedParamsAux_IMPL(xs, ML99_INC(i)))
 // } (ML99_indexedParams_IMPL)
 
 // ML99_indexedFields_IMPL {
@@ -358,11 +358,11 @@
     ML99_matchWithArgs_IMPL(type_list, ML99_PRIV_indexedFields_, i)
 #define ML99_PRIV_indexedFields_nil_IMPL ML99_empty_IMPL
 #define ML99_PRIV_indexedFields_cons_IMPL(x, xs, i)                                                \
-    ML99_TERMS(v(x _##i;), ML99_PRIV_indexedFieldsAux_IMPL(xs, ML99_INC(i)))
+    ML99_TERMS(ML99_QUOTE(x _##i;), ML99_PRIV_indexedFieldsAux_IMPL(xs, ML99_INC(i)))
 // } (ML99_indexedFields_IMPL)
 
-#define ML99_indexedInitializerList_IMPL(n) ML99_braced(ML99_PRIV_INDEXED_ITEMS(n, v(0)))
-#define ML99_indexedArgs_IMPL(n)            ML99_PRIV_INDEXED_ITEMS(n, v(ML99_EMPTY()))
+#define ML99_indexedInitializerList_IMPL(n) ML99_braced(ML99_PRIV_INDEXED_ITEMS(n, ML99_QUOTE(0)))
+#define ML99_indexedArgs_IMPL(n)            ML99_PRIV_INDEXED_ITEMS(n, ML99_QUOTE(ML99_EMPTY()))
 
 #define ML99_PRIV_INDEXED_ITEMS(n, empty_case)                                                     \
     ML99_PRIV_IF(                                                                                  \
@@ -370,7 +370,7 @@
         empty_case,                                                                                \
         ML99_variadicsTail(ML99_repeat_IMPL(n, ML99_PRIV_indexedItem)))
 
-#define ML99_PRIV_indexedItem_IMPL(i) v(, _##i)
+#define ML99_PRIV_indexedItem_IMPL(i) ML99_QUOTE(, _##i)
 
 // Arity specifiers {
 

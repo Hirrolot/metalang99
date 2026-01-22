@@ -23,7 +23,7 @@
  * Checks whether @p x takes the form `(...) (...) ...`.
  *
  * This often happens when you miss a comma between items:
- *  - `v(123) v(456)`
+ *  - `ML99_QUOTE(123) ML99_QUOTE(456)`
  *  - `(Foo, int) (Bar, int)` (as in Datatype99)
  *  - etc.
  */

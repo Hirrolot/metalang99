@@ -39,7 +39,7 @@
  * @code
  * #include <metalang99/assert.h>
  *
- * ML99_ASSERT(v(123 == 123));
+ * ML99_ASSERT(ML99_QUOTE(123 == 123));
  * @endcode
  */
 #define ML99_ASSERT(expr) ML99_ASSERT_EQ(expr, ML99_true())
@@ -52,7 +52,7 @@
  * @code
  * #include <metalang99/assert.h>
  *
- * ML99_ASSERT_EQ(v(123), v(123));
+ * ML99_ASSERT_EQ(ML99_QUOTE(123), ML99_QUOTE(123));
  * @endcode
  */
 #define ML99_ASSERT_EQ(lhs, rhs) ML99_ASSERT_UNEVAL((ML99_EVAL(lhs)) == (ML99_EVAL(rhs)))
@@ -80,10 +80,10 @@
  * #include <metalang99/assert.h>
  *
  * // Passes:
- * ML99_ASSERT_EMPTY(v());
+ * ML99_ASSERT_EMPTY(ML99_QUOTE());
  *
  * // Fails:
- * ML99_ASSERT_EMPTY(v(123));
+ * ML99_ASSERT_EMPTY(ML99_QUOTE(123));
  * @endcode
  */
 #define ML99_ASSERT_EMPTY(expr) ML99_ASSERT_EMPTY_UNEVAL(ML99_EVAL(expr))
@@ -108,8 +108,8 @@
 
 #ifndef DOXYGEN_IGNORE
 
-#define ML99_assert_IMPL(expr)       v(ML99_ASSERT_UNEVAL(expr))
-#define ML99_assertEq_IMPL(lhs, rhs) v(ML99_ASSERT_UNEVAL((lhs) == (rhs)))
+#define ML99_assert_IMPL(expr)       ML99_QUOTE(ML99_ASSERT_UNEVAL(expr))
+#define ML99_assertEq_IMPL(lhs, rhs) ML99_QUOTE(ML99_ASSERT_UNEVAL((lhs) == (rhs)))
 
 #ifdef ML99_PRIV_C11_STATIC_ASSERT_AVAILABLE
 #define ML99_PRIV_ASSERT_UNEVAL_INNER(expr) _Static_assert((expr), "Metalang99 assertion failed")

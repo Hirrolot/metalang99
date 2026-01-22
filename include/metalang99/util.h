@@ -19,13 +19,13 @@
  * @code
  * #include <metalang99/util.h>
  *
- * #define ABC123 v(Billie Jean)
+ * #define ABC123 ML99_QUOTE(Billie Jean)
  *
  * // Billie Jean
- * ML99_catEval(v(ABC), v(123))
+ * ML99_catEval(ML99_QUOTE(ABC), ML99_QUOTE(123))
  *
  * // ERROR: 123ABC is not a valid Metalang99 term.
- * ML99_catEval(v(123), v(ABC))
+ * ML99_catEval(ML99_QUOTE(123), ML99_QUOTE(ABC))
  * @endcode
  *
  * @deprecated I have seen no single use case over time. Please, [open an
@@ -44,10 +44,10 @@
  * #define ABC123 Billie Jean
  *
  * // Billie Jean
- * ML99_cat(v(ABC), v(123))
+ * ML99_cat(ML99_QUOTE(ABC), ML99_QUOTE(123))
  *
  * // 123ABC
- * ML99_cat(v(123), v(ABC))
+ * ML99_cat(ML99_QUOTE(123), ML99_QUOTE(ABC))
  * @endcode
  */
 #define ML99_cat(a, b) ML99_call(ML99_cat, a, b)
@@ -71,7 +71,7 @@
  * #include <metalang99/util.h>
  *
  * // "Billie Jean"
- * ML99_stringify(v(Billie Jean))
+ * ML99_stringify(ML99_QUOTE(Billie Jean))
  * @endcode
  */
 #define ML99_stringify(...) ML99_call(ML99_stringify, __VA_ARGS__)
@@ -90,7 +90,7 @@
  * #include <metalang99/util.h>
  *
  * // 1, 2, 3
- * ML99_id(v(1, 2, 3))
+ * ML99_id(ML99_QUOTE(1, 2, 3))
  * @endcode
  */
 #define ML99_id(...) ML99_call(ML99_id, __VA_ARGS__)
@@ -104,7 +104,7 @@
  * #include <metalang99/util.h>
  *
  * // 123
- * ML99_const(v(123), v(5))
+ * ML99_const(ML99_QUOTE(123), ML99_QUOTE(5))
  * @endcode
  */
 #define ML99_const(x, a) ML99_call(ML99_const, x, a)
@@ -118,7 +118,7 @@
  * #include <metalang99/util.h>
  *
  * // ABC123
- * ML99_appl2(ML99_flip(v(ML99_catUnevaluated)), v(123), v(ABC))
+ * ML99_appl2(ML99_flip(ML99_QUOTE(ML99_catUnevaluated)), ML99_QUOTE(123), ML99_QUOTE(ABC))
  * @endcode
  */
 #define ML99_flip(f) ML99_call(ML99_flip, f)
@@ -132,7 +132,7 @@
  * #include <metalang99/util.h>
  *
  * // 1 2 3
- * ML99_uncomma(ML99_QUOTE(v(1), v(2), v(3)))
+ * ML99_uncomma(ML99_QUOTE(ML99_QUOTE(1), ML99_QUOTE(2), ML99_QUOTE(3)))
  * @endcode
  */
 #define ML99_uncomma(...) ML99_call(ML99_uncomma, __VA_ARGS__)
@@ -152,13 +152,13 @@
  * #define F(x) @x
  *
  * // @1 @2 @3
- * ML99_variadicsForEach(ML99_reify(v(F)), v(1, 2, 3))
+ * ML99_variadicsForEach(ML99_reify(ML99_QUOTE(F)), ML99_QUOTE(1, 2, 3))
  * @endcode
  *
  * Without #ML99_reify, you would need to write some additional boilerplate:
  *
  * @code
- * #define F_IMPL(x) v(@x)
+ * #define F_IMPL(x) ML99_QUOTE(@x)
  * #define F_ARITY   1
  * @endcode
  */
@@ -176,7 +176,7 @@
  * #include <metalang99/util.h>
  *
  * // A not-yet implemented error.
- * ML99_todo(v(F))
+ * ML99_todo(ML99_QUOTE(F))
  * @endcode
  *
  * @see [Rust's std::todo\!](https://doc.rust-lang.org/core/macro.todo.html) (thanks for the idea!)
@@ -194,7 +194,7 @@
  * #include <metalang99/util.h>
  *
  * // A not-yet-implemented error.
- * ML99_todoWithMsg(v(F), v("your message"))
+ * ML99_todoWithMsg(ML99_QUOTE(F), ML99_QUOTE("your message"))
  * @endcode
  */
 #define ML99_todoWithMsg(f, message) ML99_call(ML99_todoWithMsg, f, message)
@@ -211,7 +211,7 @@
  * #include <metalang99/util.h>
  *
  * // A not-implemented error.
- * ML99_unimplemented(v(F))
+ * ML99_unimplemented(ML99_QUOTE(F))
  * @endcode
  *
  * @see [Rust's std::unimplemented\!](https://doc.rust-lang.org/core/macro.unimplemented.html)
@@ -230,7 +230,7 @@
  * #include <metalang99/util.h>
  *
  * // A not-implemented error.
- * ML99_unimplementedWithMsg(v(F), v("your message"))
+ * ML99_unimplementedWithMsg(ML99_QUOTE(F), ML99_QUOTE("your message"))
  * @endcode
  */
 #define ML99_unimplementedWithMsg(f, message) ML99_call(ML99_unimplementedWithMsg, f, message)
@@ -383,19 +383,19 @@
 #ifndef DOXYGEN_IGNORE
 
 #define ML99_catEval_IMPL(a, b)      a##b
-#define ML99_cat_IMPL(a, b)          v(a##b)
-#define ML99_cat3_IMPL(a, b, c)      v(a##b##c)
-#define ML99_cat4_IMPL(a, b, c, d)   v(a##b##c##d)
-#define ML99_stringify_IMPL(...)     v(ML99_STRINGIFY(__VA_ARGS__))
-#define ML99_empty_IMPL(...)         v(ML99_EMPTY())
-#define ML99_id_IMPL(...)            v(ML99_ID(__VA_ARGS__))
-#define ML99_const_IMPL(x, _a)       v(x)
+#define ML99_cat_IMPL(a, b)          ML99_QUOTE(a##b)
+#define ML99_cat3_IMPL(a, b, c)      ML99_QUOTE(a##b##c)
+#define ML99_cat4_IMPL(a, b, c, d)   ML99_QUOTE(a##b##c##d)
+#define ML99_stringify_IMPL(...)     ML99_QUOTE(ML99_STRINGIFY(__VA_ARGS__))
+#define ML99_empty_IMPL(...)         ML99_QUOTE(ML99_EMPTY())
+#define ML99_id_IMPL(...)            ML99_QUOTE(ML99_ID(__VA_ARGS__))
+#define ML99_const_IMPL(x, _a)       ML99_QUOTE(x)
 #define ML99_flip_IMPL(f)            ML99_appl_IMPL(ML99_PRIV_flip, f)
 #define ML99_PRIV_flip_IMPL(f, a, b) ML99_appl2_IMPL(f, b, a)
 #define ML99_uncomma_IMPL(...)       __VA_ARGS__
 
 #define ML99_reify_IMPL(f)           ML99_appl_IMPL(ML99_PRIV_reify, f)
-#define ML99_PRIV_reify_IMPL(f, ...) v(f(__VA_ARGS__))
+#define ML99_PRIV_reify_IMPL(f, ...) ML99_QUOTE(f(__VA_ARGS__))
 
 // clang-format off
 #define ML99_todo_IMPL(f) ML99_fatal(f, not yet implemented)

@@ -36,6 +36,24 @@ Sometimes, there exist two versions of the same macro: one is plain, and the oth
 
 Both metaprograms result in `1, 2, 3`.
 
+Short macro aliases
+-------------------
+
+The macro `v(...)` is a short alias for `ML99_QUOTE(...)`. To disable this alias, define `ML99_NO_SHORT_NAMES` before including Metalang99 headers:
+
+.. code:: c
+
+    #define ML99_NO_SHORT_NAMES
+    #include <metalang99.h>
+
+With CMake, add the definition to your target:
+
+.. code:: cmake
+
+    target_compile_definitions(your_target PRIVATE ML99_NO_SHORT_NAMES)
+
+``ML99_QUOTE(...)`` is always available and is recommended in public headers and in C++ projects that include third-party libraries such as Qt.
+
 Version manipulation macros
 ---------------------------
 
